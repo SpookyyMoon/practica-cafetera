@@ -1,0 +1,66 @@
+{
+    "CAPACIDAD_MAXIMA": [
+        {
+            "nombre": "Agua",
+            "cantidad": 1000
+        },
+        {
+            "nombre": "Café",
+            "cantidad": 1000            
+        },
+        {
+            "nombre": "Leche",
+            "cantidad": 500
+        },
+        {
+            "nombre": "Azucar",
+            "cantidad": 300
+        },
+        {
+            "nombre": "Cacao",
+            "cantidad": 300
+        }
+    ],
+    "ESTADO_INICIAL": [
+        {
+            "nombre": "Agua",
+            "cantidad": 600
+        },
+        {
+            "nombre": "Café",
+            "cantidad": 300            
+        },
+        {
+            "nombre": "Leche",
+            "cantidad": 100
+        },
+        {
+            "nombre": "Azucar",
+            "cantidad": 50
+        },
+        {
+            "nombre": "Cacao",
+            "cantidad": 100
+        }
+    ],
+    "BEBIDAS":[
+        {
+            "nombre": "Expresso",
+            "ingredientes":[
+                {"nombre": "agua", "cantidad": 50},{"nombre": "café", "cantidad": 100},{"nombre": "leche", "cantidad": 0},{"nombre": "cacao" ,"cantidad": 0}
+            ]
+        },
+        {
+            "nombre": "Chocolate",
+            "ingredientes":[
+                {"nombre": "agua", "cantidad": 50},{"nombre": "café", "cantidad": 0},{"nombre": "leche", "cantidad": 20},{"nombre": "cacao" ,"cantidad": 80}
+            ]
+        },
+        {
+            "nombre": "Expresso Latte",
+            "ingredientes":[
+                {"nombre": "agua", "cantidad": 50},{"nombre": "café", "cantidad": 0},{"nombre": "leche", "cantidad": 20},{"nombre": "cacao" ,"cantidad": 80}
+            ]
+        }
+    ]
+}
