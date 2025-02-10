@@ -1,11 +1,12 @@
 const fs = require('fs');
 const datos = JSON.parse(fs.readFileSync('./cafe.json', 'utf8'));
 const capacidad_max = datos.CAPACIDAD_MAXIMA;
-const estado = datos.ESTADO_INICIAL;
-const bebidas = datos.BEBIDAS;  
+let estado = datos.ESTADO_INICIAL;
+let bebidas = datos.BEBIDAS;  
 const prompt = require('prompt-sync')();
 
 function menu(){
+    console.clear();
     console.log(`
     --MÁQUINA DE CAFÉ---
     
@@ -28,6 +29,7 @@ function menu(){
             break;
         case 3:
         case 4:
+            maquina_cafe.recargar_maquina();
         case 5:
         case 6:
             process.exit();
@@ -48,6 +50,7 @@ class maquina_cafe{
     }
 
     static estado_maquina(){
+        console.clear();
         console.log('Comprobando el estado de la máquina...');
         estado.forEach(ingrediente => {
             console.log(`
@@ -55,9 +58,12 @@ class maquina_cafe{
         Cantidad: ${ingrediente.cantidad}
             `);
         });
+        prompt ("Pulsa enter para volver al menú...");
+            menu();
     }
 
     static bebidas_disponibles(){
+        console.clear();
         console.log('Mostrando bebidas disponibles...');
         for(let i = 0; i < bebidas.length; i++){
          if(this.comprobar_ingrediente_bebida(i) != false){
@@ -65,6 +71,33 @@ class maquina_cafe{
         Bebida ${i}: ${bebidas[i].nombre}
             `);
             }
+        }
+        prompt ("Pulsa enter para volver al menú...");
+            menu();
+    }
+
+    static recargar_maquina(){
+        console.clear();
+        let opcion = prompt ("¿Recargar la máquina a su máxima capacidad? (S/N): ");
+        switch (opcion){
+            case "S": case "s":
+                datos.ESTADO_INICIAL = JSON.parse(JSON.stringify(capacidad_max));
+                fs.writeFileSync('./cafe.json', JSON.stringify(datos, null, 4), 'utf8');
+                if(estado == capacidad_max){
+                    console.log("¡Máquina recargada correctamente!");
+                    prompt("Pulsa enter para volver al menú...");
+                    menu();
+                }
+                else{
+                    console.log("Ha ocurrido un error al recargar la máquina!");
+                }
+                break;
+            case "N": case "n":
+                menu();
+                break;
+            default:
+                this.recargar_maquina();
+                break;
         }
     }
 }
