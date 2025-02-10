@@ -5,10 +5,6 @@ const estado = datos.ESTADO_INICIAL;
 const bebidas = datos.BEBIDAS;  
 const prompt = require('prompt-sync')();
 
-//Declaracion
-let disponible;
-
-
 function menu(){
     console.log(`
     --MÁQUINA DE CAFÉ---
@@ -41,13 +37,12 @@ function menu(){
 class maquina_cafe{
 
     static comprobar_ingrediente_bebida(bebida){
-        //console.log("DEBUG",bebida);
         for(let i = 0; i < 4; i++){
-            //console.log("DEBUG",bebida.ingredientes[i].cantidad, estado[i].cantidad);
-            if(estado[i].cantidad >= bebida.ingredientes[i].cantidad){
-                disponible = true;
-                console.log(i)
-                console.log("DEBUG - disponible", estado[i].nombre, "/", estado[i].cantidad, bebida.ingredientes[i].nombre, "/", bebida.ingredientes[i].cantidad);
+            if(bebidas[bebida].ingredientes[i].cantidad <= estado[i].cantidad){
+                return true;
+            }
+            else{
+                return false;
             }
         }
     }
@@ -65,14 +60,14 @@ class maquina_cafe{
     static bebidas_disponibles(){
         console.log('Mostrando bebidas disponibles...');
         for(let i = 0; i < bebidas.length; i++){
-            //console.log(bebidas[i]);
-            if(this.comprobar_ingrediente_bebida(bebidas[i]) == true){
-                console.log(`
-            Bebida ${i}: ${bebidas[i].nombre}
-                `);
+         if(this.comprobar_ingrediente_bebida(i) != false){
+            console.log(`
+        Bebida ${i}: ${bebidas[i].nombre}
+            `);
             }
         }
     }
 }
 
 menu();
+
