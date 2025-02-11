@@ -6,7 +6,7 @@
         },
         {
             "nombre": "Café",
-            "cantidad": 1000            
+            "cantidad": 1000
         },
         {
             "nombre": "Leche",
@@ -28,7 +28,7 @@
         },
         {
             "nombre": "Café",
-            "cantidad": 300            
+            "cantidad": 300
         },
         {
             "nombre": "Leche",
@@ -43,24 +43,72 @@
             "cantidad": 100
         }
     ],
-    "BEBIDAS":[
+    "BEBIDAS": [
         {
             "nombre": "Expresso",
-            "ingredientes":[
-                {"nombre": "agua", "cantidad": 50},{"nombre": "café", "cantidad": 100},{"nombre": "leche", "cantidad": 0},{"nombre": "cacao" ,"cantidad": 0}
-            ]
+            "ingredientes": [
+                {
+                    "nombre": "agua",
+                    "cantidad": 50
+                },
+                {
+                    "nombre": "café",
+                    "cantidad": 100
+                },
+                {
+                    "nombre": "leche",
+                    "cantidad": 0
+                },
+                {
+                    "nombre": "cacao",
+                    "cantidad": 0
+                }
+            ],
+            "precio": 3
         },
         {
             "nombre": "Chocolate",
-            "ingredientes":[
-                {"nombre": "agua", "cantidad": 50},{"nombre": "café", "cantidad": 0},{"nombre": "leche", "cantidad": 20},{"nombre": "cacao" ,"cantidad": 80}
-            ]
+            "ingredientes": [
+                {
+                    "nombre": "agua",
+                    "cantidad": 50
+                },
+                {
+                    "nombre": "café",
+                    "cantidad": 0
+                },
+                {
+                    "nombre": "leche",
+                    "cantidad": 20
+                },
+                {
+                    "nombre": "cacao",
+                    "cantidad": 80
+                }
+            ],
+            "precio": 2.5
         },
         {
             "nombre": "Expresso Latte",
-            "ingredientes":[
-                {"nombre": "agua", "cantidad": 50},{"nombre": "café", "cantidad": 0},{"nombre": "leche", "cantidad": 20},{"nombre": "cacao" ,"cantidad": 80}
-            ]
+            "ingredientes": [
+                {
+                    "nombre": "agua",
+                    "cantidad": 50
+                },
+                {
+                    "nombre": "café",
+                    "cantidad": 0
+                },
+                {
+                    "nombre": "leche",
+                    "cantidad": 20
+                },
+                {
+                    "nombre": "cacao",
+                    "cantidad": 80
+                }
+            ],
+            "precio": 3
         }
     ]
 }

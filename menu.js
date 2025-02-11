@@ -48,12 +48,27 @@ function menu(){
 
 class maquina_cafe{
 
-    constructor(nombre, agua, cafe, leche, cacao){
+    constructor(nombre, agua, cafe, leche, cacao, precio){
         this.nombre = nombre;
-        this.agua = agua;
-        this.cafe = cafe;
-        this.leche = leche;
-        this.cacao = cacao;
+        this.ingredientes = [
+            {
+            nombre: "agua",
+            cantidad: agua
+            },
+            {
+            nombre: "cafe",
+            cantidad: cafe
+            },
+            {
+            nombre: "leche",
+            cantidad: leche
+            },
+            {
+            nombre: "cacao",
+            cantidad: cacao
+            },
+        ];
+        this.precio = precio;
     }
 
     static comprobar_ingrediente_bebida(bebida){
@@ -86,7 +101,7 @@ class maquina_cafe{
         for(let i = 0; i < bebidas.length; i++){
          if(this.comprobar_ingrediente_bebida(i) != false){
             console.log(`
-        Bebida ${i}: ${bebidas[i].nombre}
+        Bebida ${i}: ${bebidas[i].nombre} ${bebidas[i].precio}€
             `);
             }
         }
@@ -173,9 +188,9 @@ class maquina_cafe{
         }
         function nueva_bebida_precio(){
             console.clear();
-            precio = prompt ("Introduce el precio de la bebida: ");
+            precio = Number(prompt ("Introduce el precio de la bebida: "));
             let nueva_bebida = new maquina_cafe(nombre, agua, cafe, leche, cacao, precio);;
-            console.log(`¡Bebida ${nueva_bebida.nombre} agregada correctamente!`);
+            console.log(`¡Bebida ${nueva_bebida.nombre} a ${precio}€ agregada correctamente!`);
             bebidas.push(nueva_bebida);
             fs.writeFileSync('./cafe.json', JSON.stringify(datos, null, 4), 'utf8');
             prompt ("Pulsa enter para volver al menú...");
