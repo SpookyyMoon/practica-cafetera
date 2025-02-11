@@ -5,11 +5,6 @@ let estado = datos.ESTADO_INICIAL;
 let bebidas = datos.BEBIDAS;  
 const prompt = require('prompt-sync')();
 
-let agua = 0;
-let cafe = 0;
-let leche = 0;
-let cacao = 0;
-let precio = 0;
 
 function menu(){
     console.clear();
@@ -45,8 +40,7 @@ function menu(){
         case 6:
             process.exit();
         default:
-            menu();
-            break;
+            return menu();
     }
 }
 
@@ -95,7 +89,7 @@ class maquina_cafe{
             `);
         });
         prompt ("Pulsa enter para volver al menú...");
-            menu();
+            return menu();
     }
 
     static bebidas_disponibles(){
@@ -125,19 +119,16 @@ class maquina_cafe{
                 {
                     console.log("¡Máquina recargada correctamente!");
                     prompt("Pulsa enter para volver al menú...");
-                        menu();
+                        return menu();
                 }
                 else{
                     prompt("Ha ocurrido un error al recargar la máquina!\nPulsa enter para volver al menú...");
-                        menu();
+                        return menu();
                 }
-                break;
             case "N": case "n":
-                menu();
-                break;
+                return menu();
             default:
-                this.recargar_maquina();
-                break;
+                return this.recargar_maquina();
         }
     }
 
@@ -145,6 +136,8 @@ class maquina_cafe{
         console.clear();
         let nombre = prompt ("Introduce el nombre de la bebida: ");
             nueva_bebida_ingredientes();
+
+        let agua = 0, cafe = 0, leche = 0, cacao = 0, precio = 0;
 
         function nueva_bebida_ingredientes(){
             console.clear();
@@ -158,20 +151,16 @@ class maquina_cafe{
                 switch(ingrediente){
                     case "0":
                         agua = Number(prompt ("Introduce la cantidad de agua (Valores enteros): "));
-                        nueva_bebida_ingredientes()
-                        break;
+                        return nueva_bebida_ingredientes();
                     case "1":
                         cafe = Number(prompt ("Introduce la cantidad de café (Valores enteros): "));
-                        nueva_bebida_ingredientes()
-                        break;
+                        return nueva_bebida_ingredientes();
                     case "2":
                         leche = Number(prompt ("Introduce la cantidad de leche (Valores enteros): "));
-                        nueva_bebida_ingredientes()
-                        break;
+                        return nueva_bebida_ingredientes();
                     case "3":
                         cacao = Number(prompt ("Introduce la cantidad de cacao (Valores enteros): "));
-                        nueva_bebida_ingredientes()
-                        break;
+                        return nueva_bebida_ingredientes();
                     case "p":
                         console.log(`
         Ingredienes actuales:
@@ -184,9 +173,8 @@ class maquina_cafe{
                         prompt ("Pulsa enter para continuar...");
                         nueva_bebida_precio();
                         break;
-                        default:
-                            nueva_bebida_ingredientes();
-                            break;
+                    default:
+                        return nueva_bebida_ingredientes();
                 }
         }
         function nueva_bebida_precio(){
@@ -197,7 +185,7 @@ class maquina_cafe{
             bebidas.push(nueva_bebida);
             fs.writeFileSync('./cafe.json', JSON.stringify(datos, null, 4), 'utf8');
             prompt ("Pulsa enter para volver al menú...");
-                menu();
+                return menu();
         }
     }
 
@@ -212,31 +200,33 @@ class maquina_cafe{
             }
         }
         let bebida = Number( prompt ("Introuce la bebida que deseas: "));
+            if(isNaN(bebida) || bebida < 0 || bebida >= bebidas.length) {
+                console.log("Has seleccionado una bebida inválida!");
+                prompt ("Pulsa enter para volver...");
+                    return this.pedir_bebida();
+            }
             console.log(`Has seleccionado ${bebidas[bebida].nombre} a ${bebidas[bebida].precio}€`);
             let azucar_pedir = prompt ("¿Quieres añadir azucar?(S/N): ");
             switch (azucar_pedir){
                 case "S": case "s":
-                    for(let i = 0; i < bebidas[bebida].ingredientes; i++){
+                    for(let i = 0; i < bebidas[bebida].ingredientes.length; i++){
                         estado[i].cantidad -= bebidas[bebida].ingredientes[i].cantidad;
                         estado[5] -= 10;
                     }
                     console.log("¡Tu bebida se ha servido, disfruta!");
                     prompt ("Pulsa enter para volver al menú...");
-                        menu();
-                    break;
+                        return menu();
                 
                 case "N": case "n":
-                    for(let i = 0; i < bebidas[bebida].ingredientes; i++){
+                    for(let i = 0; i < bebidas[bebida].ingredientes.length; i++){
                         estado[i].cantidad -= bebidas[bebida].ingredientes[i].cantidad;
                         }
                     console.log("¡Tu bebida se ha servido, disfruta!");
                     prompt ("Pulsa enter para volver al menú...");
-                        menu();
-                    break;
+                        return menu();
                     
                 default:
-                    this.pedir_bebida();
-                    break;    
+                    return this.pedir_bebida();
         }
     }
 }
