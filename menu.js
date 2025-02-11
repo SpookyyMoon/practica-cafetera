@@ -38,11 +38,15 @@ function menu(){
             break;
         case 4:
             maquina_cafe.recargar_maquina();
+            break;
         case 5:
+            maquina_cafe.pedir_bebida();
+            break;
         case 6:
             process.exit();
         default:
             menu();
+            break;
     }
 }
 
@@ -71,16 +75,15 @@ class maquina_cafe{
         this.precio = precio;
     }
 
-    static comprobar_ingrediente_bebida(bebida){
-        for(let i = 0; i < 4; i++){
-            if(bebidas[bebida].ingredientes[i].cantidad <= estado[i].cantidad){
-                return true;
-            }
-            else{
+    static comprobar_ingrediente_bebida(bebida) {
+        for (let i = 0; i < 4; i++) {
+            if (bebidas[bebida].ingredientes[i].cantidad > estado[i].cantidad) {
                 return false;
             }
         }
+        return true;
     }
+    
 
     static estado_maquina(){
         console.clear();
@@ -195,6 +198,45 @@ class maquina_cafe{
             fs.writeFileSync('./cafe.json', JSON.stringify(datos, null, 4), 'utf8');
             prompt ("Pulsa enter para volver al menú...");
                 menu();
+        }
+    }
+
+    static pedir_bebida(){
+        console.clear();
+        console.log('Mostrando bebidas disponibles...');
+        for(let i = 0; i < bebidas.length; i++){
+            if(this.comprobar_ingrediente_bebida(i) != false){
+                console.log(`
+        Bebida ${i}: ${bebidas[i].nombre} ${bebidas[i].precio}€
+                `);
+            }
+        }
+        let bebida = Number( prompt ("Introuce la bebida que deseas: "));
+            console.log(`Has seleccionado ${bebidas[bebida].nombre} a ${bebidas[bebida].precio}€`);
+            let azucar_pedir = prompt ("¿Quieres añadir azucar?(S/N): ");
+            switch (azucar_pedir){
+                case "S": case "s":
+                    for(let i = 0; i < bebidas[bebida].ingredientes; i++){
+                        estado[i].cantidad -= bebidas[bebida].ingredientes[i].cantidad;
+                        estado[5] -= 10;
+                    }
+                    console.log("¡Tu bebida se ha servido, disfruta!");
+                    prompt ("Pulsa enter para volver al menú...");
+                        menu();
+                    break;
+                
+                case "N": case "n":
+                    for(let i = 0; i < bebidas[bebida].ingredientes; i++){
+                        estado[i].cantidad -= bebidas[bebida].ingredientes[i].cantidad;
+                        }
+                    console.log("¡Tu bebida se ha servido, disfruta!");
+                    prompt ("Pulsa enter para volver al menú...");
+                        menu();
+                    break;
+                    
+                default:
+                    this.pedir_bebida();
+                    break;    
         }
     }
 }
