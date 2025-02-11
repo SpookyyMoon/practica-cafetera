@@ -5,6 +5,12 @@ let estado = datos.ESTADO_INICIAL;
 let bebidas = datos.BEBIDAS;  
 const prompt = require('prompt-sync')();
 
+let agua = 0;
+let cafe = 0;
+let leche = 0;
+let cacao = 0;
+let precio = 0;
+
 function menu(){
     console.clear();
     console.log(`
@@ -28,15 +34,27 @@ function menu(){
             maquina_cafe.estado_maquina();
             break;
         case 3:
+            maquina_cafe.nueva_bebida();
+            break;
         case 4:
             maquina_cafe.recargar_maquina();
         case 5:
         case 6:
             process.exit();
+        default:
+            menu();
     }
 }
 
 class maquina_cafe{
+
+    constructor(nombre, agua, cafe, leche, cacao){
+        this.nombre = nombre;
+        this.agua = agua;
+        this.cafe = cafe;
+        this.leche = leche;
+        this.cacao = cacao;
+    }
 
     static comprobar_ingrediente_bebida(bebida){
         for(let i = 0; i < 4; i++){
@@ -81,15 +99,19 @@ class maquina_cafe{
         let opcion = prompt ("¿Recargar la máquina a su máxima capacidad? (S/N): ");
         switch (opcion){
             case "S": case "s":
+                //Copia profunda de datos y se reescribe (Soluciona el problema de guardado en memoria pero no en el json)
                 datos.ESTADO_INICIAL = JSON.parse(JSON.stringify(capacidad_max));
                 fs.writeFileSync('./cafe.json', JSON.stringify(datos, null, 4), 'utf8');
-                if(estado == capacidad_max){
+                //lectura desde valores y no desde objetos
+                if (JSON.stringify(datos.ESTADO_INICIAL) === JSON.stringify(datos.CAPACIDAD_MAXIMA))
+                {
                     console.log("¡Máquina recargada correctamente!");
                     prompt("Pulsa enter para volver al menú...");
-                    menu();
+                        menu();
                 }
                 else{
-                    console.log("Ha ocurrido un error al recargar la máquina!");
+                    prompt("Ha ocurrido un error al recargar la máquina!\nPulsa enter para volver al menú...");
+                        menu();
                 }
                 break;
             case "N": case "n":
@@ -100,7 +122,66 @@ class maquina_cafe{
                 break;
         }
     }
+
+    static nueva_bebida(){
+        console.clear();
+        let nombre = prompt ("Introduce el nombre de la bebida: ");
+            nueva_bebida_ingredientes();
+
+        function nueva_bebida_ingredientes(){
+            console.clear();
+            for(let i = 0; i < estado.length; i++){
+                console.log(`
+        ${i}: ${estado[i].nombre}
+        `);
+            }
+            console.log("Selecciona el/los ingredientes de la bebida para añadir cantidades.\nLos valores a 0 (Por defecto) no consumen ese ingrediente.")
+            let ingrediente = prompt ("Introduce 'p' para finalizar: ");
+                switch(ingrediente){
+                    case "0":
+                        agua = Number(prompt ("Introduce la cantidad de agua (Valores enteros): "));
+                        nueva_bebida_ingredientes()
+                        break;
+                    case "1":
+                        cafe = Number(prompt ("Introduce la cantidad de café (Valores enteros): "));
+                        nueva_bebida_ingredientes()
+                        break;
+                    case "2":
+                        leche = Number(prompt ("Introduce la cantidad de leche (Valores enteros): "));
+                        nueva_bebida_ingredientes()
+                        break;
+                    case "3":
+                        cacao = Number(prompt ("Introduce la cantidad de cacao (Valores enteros): "));
+                        nueva_bebida_ingredientes()
+                        break;
+                    case "p":
+                        console.log(`
+        Ingredienes actuales:
+                    
+            Agua: ${agua}
+            Cafe: ${cafe}
+            Leche: ${leche}
+            Cacao: ${cacao}
+                        `);
+                        prompt ("Pulsa enter para continuar...");
+                        nueva_bebida_precio();
+                        break;
+                        default:
+                            nueva_bebida_ingredientes();
+                            break;
+                }
+        }
+        function nueva_bebida_precio(){
+            console.clear();
+            precio = prompt ("Introduce el precio de la bebida: ");
+            let nueva_bebida = new maquina_cafe(nombre, agua, cafe, leche, cacao, precio);;
+            console.log(`¡Bebida ${nueva_bebida.nombre} agregada correctamente!`);
+            bebidas.push(nueva_bebida);
+            fs.writeFileSync('./cafe.json', JSON.stringify(datos, null, 4), 'utf8');
+            prompt ("Pulsa enter para volver al menú...");
+                menu();
+        }
+    }
 }
 
 menu();
-
