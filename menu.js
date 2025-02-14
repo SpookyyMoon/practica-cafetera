@@ -4,10 +4,20 @@ const capacidad_max = datos.CAPACIDAD_MAXIMA;
 let estado = datos.ESTADO_INICIAL;
 let bebidas = datos.BEBIDAS;  
 const prompt = require('prompt-sync')();
+let ascii_cafe = 
+`
+            ( (
+             ) )
+          ........
+          |      |] 
+          |      /  
+          '-----'
+`
 
 
 function menu(){
     console.clear();
+    console.log(ascii_cafe);
     console.log(`
     --MÁQUINA DE CAFÉ---
     
