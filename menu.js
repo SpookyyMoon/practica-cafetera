@@ -211,7 +211,8 @@ class maquina_cafe{
                 case "S": case "s":
                     for(let i = 0; i < bebidas[bebida].ingredientes.length; i++){
                         estado[i].cantidad -= bebidas[bebida].ingredientes[i].cantidad;
-                        estado[5] -= 10;
+                        estado[4].cantidad -= 10;
+                        fs.writeFileSync('./cafe.json', JSON.stringify(datos, null, 4), 'utf8');
                     }
                     console.log("¡Tu bebida se ha servido, disfruta!");
                     prompt ("Pulsa enter para volver al menú...");
@@ -220,6 +221,7 @@ class maquina_cafe{
                 case "N": case "n":
                     for(let i = 0; i < bebidas[bebida].ingredientes.length; i++){
                         estado[i].cantidad -= bebidas[bebida].ingredientes[i].cantidad;
+                        fs.writeFileSync('./cafe.json', JSON.stringify(datos, null, 4), 'utf8');
                         }
                     console.log("¡Tu bebida se ha servido, disfruta!");
                     prompt ("Pulsa enter para volver al menú...");
